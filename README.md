@@ -44,7 +44,7 @@ Built in [n8n](https://n8n.io); Orchestrator ↔ sub-agent calls use n8n's Execu
 
 | File | What it is |
 |---|---|
-| `Priyanka_PRD.docx` / `Priyanka_PRD_working.md` | The PRD — problem definition through pricing |
+| `ShipWise AI PRD.md` | The PRD — problem definition through pricing |
 | `Evals/` | Behavior-level test criteria and eval schema spreadsheets backing the automated test suite |
 | `Design/` | UI mockups for the eventual front end |
 
