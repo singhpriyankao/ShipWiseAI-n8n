@@ -1,0 +1,206 @@
+{
+  "name": "Regulations-Ingest",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -16
+      ],
+      "id": "b8d66224-e41c-4fd3-8c36-545c561e02c8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf71cdf5-a88c-4807-b862-bed7470c8672",
+              "name": "regulatory_text",
+              "value": "GDPR Article 13-14 — Information to be provided (transparency)\n  When a customer-support AI feature collects personal data from a user,\n  the data controller must inform the individual, at the time data is\n  collected, of: the identity of the controller, the purpose of processing,\n  the legal basis, retention period, and the individual's rights (access,\n  rectification, erasure, objection). Plain-language implication for a\n  support chatbot: if it captures account/contact details during a\n  conversation, the product needs a clear, accessible disclosure of what's\n  collected and why — not buried in a general privacy policy only.\n\nGDPR Article 13-14 — Information to be provided (transparency)\n  When a customer-support AI feature collects personal data from a user,\n  the data controller must inform the individual, at the time data is\n  collected, of: the identity of the controller, the purpose of processing,\n  the legal basis, retention period, and the individual's rights (access,\n  rectification, erasure, objection). Plain-language implication for a\n  support chatbot: if it captures account/contact details during a\n  conversation, the product needs a clear, accessible disclosure of what's\n  collected and why — not buried in a general privacy policy only.\n\n  GDPR Article 22 — Automated individual decision-making, including\n  profiling\n  Individuals have the right not to be subject to a decision based solely\n  on automated processing (including profiling) that produces legal effects\n  or similarly significantly affects them, subject to certain exceptions\n  (explicit consent, contract necessity, or authorizing law) — and even\n  then, the controller must provide a way to obtain human intervention,\n  express their point of view, and contest the decision. Plain-language\n  implication: if the support AI's output can materially affect a user\n  (e.g., autonomously denying a refund or account action with no human\n  review path), this article is implicated and a human-in-the-loop path is\n  required.\n\n  EU AI Act — Transparency obligations for AI systems interacting with\n  natural persons (Article 50)\n  Providers must ensure that natural persons are informed they are\n  interacting with an AI system, unless this is obvious from context.\n  Plain-language implication: a customer-support chatbot must disclose to\n  the end user that they're talking to an AI, not a human agent, unless\n  that's already unmistakably clear from the interface.\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "0100752b-2164-451b-b370-3722f7854643",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "450964dc-dc98-4820-a5cd-2ae17dc6091a",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        352
+      ],
+      "id": "5b3667c5-d52f-4d84-bb32-7b8e94a2c7fa",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        528,
+        240
+      ],
+      "id": "316c8993-d3a1-4f16-9248-231b5de65625",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "mode": "load",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        },
+        "prompt": "what information must be disclosed when collecting personal data"
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        128,
+        208
+      ],
+      "id": "5df04ede-4902-43ff-8fed-3896c032d952",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        400
+      ],
+      "id": "eeaef97a-00db-4bf3-9c12-211af685ccb6",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "23bf874d-7802-4efd-acbc-8888ab60d06d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27a7c95042d12c27a7b4fbd9e337c6ae4c32cfdccb1b95cd58e9a8b1e0ce51ff"
+  },
+  "nodeGroups": [],
+  "id": "0nf9xPtMqA8dtmAB",
+  "tags": []
+}

@@ -1,0 +1,583 @@
+{
+  "name": "AI feature design -Orch + All Sub-agents",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -1200,
+        -16
+      ],
+      "id": "1c5982ad-1fca-4462-854e-2ae3a9272f68",
+      "name": "When chat message received",
+      "webhookId": "646ccb53-231d-4c66-87fd-f925436f3d2c"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId || $json.test_id || 'eval-session' }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -880,
+        256
+      ],
+      "id": "5eee57d7-3b3f-4313-9f75-3b8823595f02",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1008,
+        240
+      ],
+      "id": "697189fa-240d-4ba9-ab87-fcdbfdbafc99",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput || $json.feature_description }}",
+        "options": {
+          "systemMessage": "You are the orchestrator for ShipWise AI, a Responsible AI Feature\n  Decision Agent that helps PMs choose the right model stack for a\n  customer-support AI feature.\n\n  You have access to three tools. Route based on what the user's message\n  actually asks about: Do not call a tool unless the user's question specifically requires that tool's capability. \n  - competitive_analysis: call this ONLY when the user asks about market\n  positioning, competitors, or how this feature compares to existing\n  products (e.g. Intercom Fin, Zendesk AI).\n  - model_stack_analysis: call this ONLY when the user asks which LLM/AI\n  model to use, or mentions cost, speed, latency, or accuracy trade-offs\n  for model selection.\n  - regulatory_check: call this ONLY when the user asks about compliance,\n  regulations, the EU AI Act, GDPR, or legal/legal-adjacent requirements.\n\n    When calling regulatory_check, set jurisdiction to the exact value \"EU\"\n  whenever the user's question relates to the EU, EU AI Act, or GDPR, or\n  doesn't specify a jurisdiction at all. Only use a different value if the\n  user explicitly names a different jurisdiction (e.g. \"California,\" \"US\").\n  Do not use phrases like \"European Union\" or \"the EU market\" — use\n  exactly \"EU\".\n\n  Do not call a tool unless the user's question specifically requires that tool's capability. A question only about regulatory/compliance concerns requires\n Regulations alone — do not also call Competitive Analysis or Model Stack Analysis 'for completeness.' Only call multiple tools when the user's question\n genuinely spans multiple domains (e.g., asks about model fit and market positioning and compliance in the same message,)\n  Once you have the information you need from the tool(s) you called,\n  synthesize a final answer directly for the user — do not continue\n  reasoning or re-invoking tools after that. If a tool call fails or\n  errors, tell the user what's missing rather than retrying it repeatedly.\n\n  When presenting results:\nWhen synthesizing results from more than one tool, keep each claim's citation attached to its source — don't merge into a single uncited paragraph\n  - Preserve source citations from every tool's output.\n  - If regulatory_check returns a scope refusal for a jurisdiction outside\n  the EU, relay that limitation honestly — do not supplement it with your\n  own general knowledge of that jurisdiction's laws.\n  - If regulatory_check flags a conflict with a model choice from\n  model_stack_analysis, surface that conflict explicitly — regulatory flags\n  take precedence over cost/speed considerations. If the Regulations tool flags a conflict with a model or competitive recommendation, state that conflict explicitly to the user rather than letting the recommendations sit side-by-side unreconciled — Regulations' flags take precedenc\n  - If any tool indicates it needs more information, still present results\n  you already have from the other tools, and note specifically what's\n  missing.\n\n  If the user rejects a recommendation or changes a constraint, re-invoke\n  the relevant tool(s) with the updated context.\n\n  You do NOT yet have a Feedback Collector or Learning Agent — say so\n  honestly if asked about post-launch tracking.\n\n ",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -992,
+        -32
+      ],
+      "id": "6cc7a3ea-f4af-44e5-823c-3a20916b8dc9",
+      "name": "Orchestrator",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "description": "Call this to run model stack analysis",
+        "workflowId": {
+          "__rl": true,
+          "value": "PhZB9xqaa70YSmsM",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/PhZB9xqaa70YSmsM",
+          "cachedResultName": "Model stack analysis"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "feature_description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('feature_description', ``, 'string') }}",
+            "accuracy_target": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('accuracy_target', ``, 'string') }}",
+            "latency_target": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('latency_target', ``, 'string') }}",
+            "budget": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('budget', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "feature_description",
+              "displayName": "feature_description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "accuracy_target",
+              "displayName": "accuracy_target",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "latency_target",
+              "displayName": "latency_target",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -544,
+        368
+      ],
+      "id": "1547bd85-6435-4d29-808c-e85a20ea9143",
+      "name": "Call 'Model stack analysis'"
+    },
+    {
+      "parameters": {
+        "description": "call this to run regulation checks",
+        "workflowId": {
+          "__rl": true,
+          "value": "fDdVXI5EKbYrwSpU",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/fDdVXI5EKbYrwSpU",
+          "cachedResultName": "Regulations"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "feature_description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('feature_description', ``, 'string') }}",
+            "jurisdiction": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('jurisdiction', ``, 'string') }}",
+            "data_handling_description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('data_handling_description', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "feature_description",
+              "displayName": "feature_description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "jurisdiction",
+              "displayName": "jurisdiction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "data_handling_description",
+              "displayName": "data_handling_description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        192
+      ],
+      "id": "d2b2c319-609e-4961-af1b-a60fa14fc1ed",
+      "name": "Call 'Regulations'"
+    },
+    {
+      "parameters": {
+        "description": "You are an expert AI feature recommendation agent with expertise in\n  customer-support use cases for B2B SaaS, specializing in competitive\n  product intelligence.\n\n\n\n",
+        "workflowId": {
+          "__rl": true,
+          "value": "nJmOGSNty5uh6yMk",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/nJmOGSNty5uh6yMk",
+          "cachedResultName": "Competitive analysis"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "feature_description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('feature_description', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "feature_description"
+          ],
+          "schema": [
+            {
+              "id": "feature_description",
+              "displayName": "feature_description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -688,
+        320
+      ],
+      "id": "8ab172de-1b80-4c10-9705-959a20f0929c",
+      "name": "Call 'Competitive analysis'"
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 593124923,
+          "mode": "list",
+          "cachedResultName": "Orchestrator Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=593124923"
+        }
+      },
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 4.7,
+      "position": [
+        -1248,
+        -224
+      ],
+      "id": "cce486ae-05d1-4830-b193-fb2cff715387",
+      "name": "When fetching a dataset row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n    const steps = item.json.intermediateSteps || [];\n    const actualTools = steps.map(s => s.action?.tool).filter(Boolean);\n\n    const expectedRaw = ($('When fetching a dataset row').first()?.json.expected_tools || '').trim().toLowerCase();\n    const expectedTools = (expectedRaw === '' || expectedRaw === 'none')\n      ? []\n      : expectedRaw.split(',').map(t => t.trim()).filter(Boolean);\n\n    const actualSet = new Set(actualTools.map(t => t.toLowerCase()));\n    const expectedSet = new Set(expectedTools);\n\n    const setsMatch = actualSet.size === expectedSet.size &&\n      [...expectedSet].every(t => actualSet.has(t));\n\n    return {\n      json: {\n        ...item.json,\n        actual_tools: actualTools.join(', ') || 'none',\n        correct_routing: setsMatch ? 1 : 0\n      }\n    };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        -576
+      ],
+      "id": "76aac625-7bf1-4a08-a0aa-77846a781676",
+      "name": "Extract routing"
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 593124923,
+          "mode": "list",
+          "cachedResultName": "Orchestrator Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=593124923"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "output",
+              "outputValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -576,
+        -576
+      ],
+      "id": "8e294781-3d2e-4a51-9b5e-fac272939421",
+      "name": "Evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const rule = $('When fetching a dataset row').first().json.rule_text;\n  const actual = item.json.output;\n  const body = {\n    model: \"gpt-4o-mini\",\n    temperature: 0,\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are a strict grader. Reply with only a JSON object: { \\\"score\\\": <0 to 1>, \\\"reason\\\": <one sentence> }. No other text.\"\n      },\n      {\n        role: \"user\",\n        content: `Rule: ${rule}\\nActual output: ${actual}`\n      }\n    ]\n  };\n  return { json: { requestBody: JSON.stringify(body) } };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        -576
+      ],
+      "id": "615f3de5-ae5a-40a7-9b52-eaa8f1077cbc",
+      "name": "Build Judge Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.requestBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -272,
+        -576
+      ],
+      "id": "869e1cbe-c0ec-4b66-89fc-d259ea084fe5",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "D1mmHKZDMu4gMr70",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  try {\n    const raw = item.json.choices?.[0]?.message?.content;\n    \n    if (!raw) {\n      return { json: { error: \"No content found in input data\" } };\n    }\n    \n    const cleanRaw = raw.replace(/^```json\\s*/i, \"\").replace(/```\\s*$/, \"\").trim();\n    const parsed = JSON.parse(cleanRaw);\n    \n    return { \n      json: { \n        score: parsed.score ?? null, \n        reason: parsed.reason ?? \"No reason provided\" \n      } \n    };\n  } catch (error) {\n    return { \n      json: { \n        error: \"Failed to parse JSON\", \n        details: error.message, \n        raw_content: item.json.choices?.[0]?.message?.content \n      } \n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        -576
+      ],
+      "id": "781184d5-438e-47f3-8422-79ecfb6c9090",
+      "name": "Parse Judge Reply"
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "metric": "customMetrics",
+        "metrics": {
+          "assignments": [
+            {
+              "name": "=rule_satisfied = {{ $json.score }}",
+              "value": 0,
+              "type": "number",
+              "id": "ac759ddb-d3b5-4982-bf02-5524f19d8873"
+            },
+            {
+              "id": "c2a97986-0d95-488b-8688-e497dbd248a9",
+              "name": "=correct_routing = {{ $('Extract routing').item.json.correct_routing }}",
+              "value": 0,
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -176,
+        -336
+      ],
+      "id": "e1bbae7a-1f23-497d-a755-3f602da183b8",
+      "name": "Evaluation1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Orchestrator": {
+      "main": [
+        [
+          {
+            "node": "Extract routing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Model stack analysis'": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Regulations'": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Competitive analysis'": {
+      "ai_tool": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When fetching a dataset row": {
+      "main": [
+        [
+          {
+            "node": "Orchestrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract routing": {
+      "main": [
+        [
+          {
+            "node": "Evaluation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation": {
+      "main": [
+        [
+          {
+            "node": "Build Judge Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Judge Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Parse Judge Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Judge Reply": {
+      "main": [
+        [
+          {
+            "node": "Evaluation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ce80cd7d-7eb2-4a8f-8226-456f1130c27d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27a7c95042d12c27a7b4fbd9e337c6ae4c32cfdccb1b95cd58e9a8b1e0ce51ff"
+  },
+  "nodeGroups": [],
+  "id": "KzksJL8q1A8p5TVM",
+  "tags": []
+}
