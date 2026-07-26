@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<meta name="design_doc_mode" content="canvas">
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@keyframes pulse-confidence { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+@keyframes slide-in { from { transform: translateX(-8px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+body { margin: 0; font-family: Inter, sans-serif; background: #f8f8f8; color: #1a1a1a; }
+a { color: #0066cc; text-decoration: none; } a:hover { text-decoration: underline; }
+</style>
+</helmet>
+
+<section id="1a" style="padding: 48px; background: white; margin: 20px;">
+<h1 style="font-size: 28px; font-weight: 700; margin: 0 0 32px 0; color: #1a1a1a;">ShipWise AI Design System</h1>
+
+<div style="display: grid; gap: 48px;">
+
+<!-- Typography -->
+<div>
+<h2 style="font-size: 18px; font-weight: 600; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Typography</h2>
+<div style="display: grid; gap: 24px;">
+<div>
+<div style="font-family: Inter; font-size: 16px; font-weight: 400; margin-bottom: 8px;">Inter Regular — UI labels, body text, chat</div>
+<div style="color: #666; font-size: 13px;">The default for all UI copy; neutral, precise, readable at small sizes.</div>
+</div>
+<div>
+<div style="font-family: Inter; font-size: 16px; font-weight: 600; margin-bottom: 8px;">Inter Semibold — Headers, emphasis</div>
+<div style="color: #666; font-size: 13px;">Section titles, button labels, key metrics.</div>
+</div>
+<div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; margin-bottom: 8px;">JetBrains Mono — Numbers, citations, model names</div>
+<div style="color: #666; font-size: 13px;">Visually signals machine-generated or data: latency, cost, confidence %, citations, model IDs.</div>
+</div>
+</div>
+</div>
+
+<!-- Color System -->
+<div>
+<h2 style="font-size: 18px; font-weight: 600; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Color System</h2>
+<div style="display: grid; gap: 24px;">
+
+<div>
+<div style="font-weight: 600; margin-bottom: 12px;">Neutrals (Base)</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<div style="width: 56px; height: 56px; background: #ffffff; border: 1px solid #ccc; border-radius: 4px;"></div>
+<div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #666;">#ffffff</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<div style="width: 56px; height: 56px; background: #f8f8f8; border: 1px solid #ccc; border-radius: 4px;"></div>
+<div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #666;">#f8f8f8</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<div style="width: 56px; height: 56px; background: #e8e8e8; border: 1px solid #ccc; border-radius: 4px;"></div>
+<div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #666;">#e8e8e8</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<div style="width: 56px; height: 56px; background: #1a1a1a; border-radius: 4px;"></div>
+<div style="font-size: 11px; font-family: 'JetBrains Mono'; color: #666;">#1a1a1a</div>
+</div>
+</div>
+</div>
+
+<div>
+<div style="font-weight: 600; margin-bottom: 12px;">Status Language</div>
+<div style="display: grid; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 12px; height: 12px; background: #4CAF50; border-radius: 2px;"></div>
+<span style="font-size: 13px;"><strong>Pass / Compliant</strong> #4CAF50</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 12px; height: 12px; background: #FFA500; border-radius: 2px;"></div>
+<span style="font-size: 13px;"><strong>Caution / Low confidence</strong> #FFA500 — soft uncertainty, not an error</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 12px; height: 12px; background: #DC3545; border-radius: 2px;"></div>
+<span style="font-size: 13px;"><strong>Blocked / Compliance issue</strong> #DC3545 — reserved for regulatory blocks only</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px;">
+<div style="width: 12px; height: 12px; background: #9E9E9E; border-radius: 2px;"></div>
+<span style="font-size: 13px;"><strong>Unverified / Pending</strong> #9E9E9E</span>
+</div>
+</div>
+</div>
+
+<div>
+<div style="font-weight: 600; margin-bottom: 12px;">Confidence Gradient (soft uncertainty)</div>
+<div style="display: grid; gap: 8px; font-size: 13px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 8px; height: 8px; background: #d4a574; border-radius: 50%;"></div> Low (60-69%)
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 8px; height: 8px; background: #b8a060; border-radius: 50%;"></div> Medium (70-79%)
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 8px; height: 8px; background: #7a9c5c; border-radius: 50%;"></div> High (80%+)
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Core Components -->
+<div>
+<h2 style="font-size: 18px; font-weight: 600; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Core Patterns</h2>
+<div style="display: grid; gap: 32px;">
+
+<!-- Citation Chip -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Citation Chip</div>
+<div style="display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #d0d0d0; border-radius: 4px; padding: 4px 8px; font-size: 12px;">
+<span style="font-family: 'JetBrains Mono';">Ref[1]</span>
+<span>Competitor API latency</span>
+</div>
+<div style="margin-top: 12px; color: #666; font-size: 12px;">Every agent claim needs an inline, clickable source. Unverified claims show a distinct badge:</div>
+<div style="display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #9E9E9E; border-radius: 4px; padding: 4px 8px; font-size: 12px; margin-top: 8px;">
+<span style="font-family: 'JetBrains Mono';">Ref[?]</span>
+<span style="color: #666;">Unverified</span>
+</div>
+</div>
+
+<!-- Confidence Badge -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Confidence Badge</div>
+<div style="display: inline-flex; align-items: center; gap: 8px; background: white; border: 1px solid #e8e8e8; border-radius: 4px; padding: 8px 12px; font-size: 12px;">
+<div style="width: 8px; height: 8px; background: #b8a060; border-radius: 50%;"></div>
+<span style="font-family: 'JetBrains Mono';">72%</span>
+<span style="color: #666;">Medium confidence</span>
+</div>
+<div style="margin-top: 12px; color: #666; font-size: 12px;">Soft, non-alarming. Used inline to show reasoning certainty, separate from compliance status.</div>
+</div>
+
+<!-- Regulatory Block Banner -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Regulatory Block Banner</div>
+<div style="background: #fff3f0; border-left: 4px solid #DC3545; border-radius: 4px; padding: 12px 14px; font-size: 13px;">
+<div style="font-weight: 600; color: #DC3545; margin-bottom: 6px;">Compliance Block: GDPR Data Residency</div>
+<div style="color: #333; line-height: 1.5;">This model stack routes customer data outside EU. Regulations agent overrides recommendation.</div>
+<div style="margin-top: 8px; font-size: 12px; color: #666; font-family: 'JetBrains Mono';">Override reason: GDPR § 44-49 · <a href="#" style="color: #0066cc;">View precedent</a></div>
+</div>
+</div>
+
+<!-- Constraint Spec Bar -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Constraint Spec Bar</div>
+<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; background: white; border: 1px solid #d0d0d0; border-radius: 6px; padding: 12px 14px;">
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Accuracy</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">≥80%</span>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Latency</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">&lt;300ms</span>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Cost/mo</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">&lt;$50K</span>
+</div>
+<button style="margin-left: auto; padding: 6px 12px; background: #0066cc; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer;">Edit & Re-run</button>
+</div>
+<div style="margin-top: 8px; color: #666; font-size: 12px;">Clicking a constraint opens an edit panel. "Edit & Re-run" is explicit, not silent auto-compute.</div>
+</div>
+
+<!-- Reasoning Trace / Plan -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Reasoning Trace / Plan Disclosure</div>
+<div style="background: white; border: 1px solid #e8e8e8; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.6;">
+<div style="display: flex; gap: 8px; margin-bottom: 8px;">
+<span style="color: #4CAF50; font-weight: 600;">✓</span>
+<span>Fetch competitor model performance data</span>
+</div>
+<div style="display: flex; gap: 8px; margin-bottom: 8px;">
+<span style="color: #4CAF50; font-weight: 600;">✓</span>
+<span>Map available model stacks against constraints</span>
+</div>
+<div style="display: flex; gap: 8px; margin-bottom: 8px;">
+<span style="color: #FFA500; font-weight: 600;">⋯</span>
+<span style="color: #666;">Query regulatory precedent (in progress)</span>
+</div>
+<div style="display: flex; gap: 8px;">
+<span style="color: #9E9E9E; font-weight: 600;">○</span>
+<span style="color: #999;">Synthesize recommendations</span>
+</div>
+</div>
+<div style="margin-top: 8px; color: #666; font-size: 12px;">Progressive checklist showing orchestrator's execution plan before agents run.</div>
+</div>
+
+<!-- Scenario Comparison Card -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Scenario Comparison</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+<div style="background: white; border: 1px solid #e8e8e8; border-radius: 6px; padding: 12px; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 8px;">Scenario A</div>
+<div style="display: flex; gap: 4px; margin-bottom: 6px; align-items: center;">
+<span style="background: #4CAF50; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600;">PASS</span>
+<span style="font-size: 11px; color: #666;">All constraints</span>
+</div>
+<div style="font-size: 11px; color: #999; line-height: 1.5;">
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Accuracy:</span> 82%</div>
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Latency:</span> 245ms</div>
+<div><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Cost:</span> $38K/mo</div>
+</div>
+<button style="width: 100%; margin-top: 8px; padding: 6px; background: #0066cc; color: white; border: none; border-radius: 3px; font-size: 11px; cursor: pointer;">Select</button>
+</div>
+<div style="background: white; border: 1px solid #FFA500; border-radius: 6px; padding: 12px; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 8px;">Scenario B</div>
+<div style="display: flex; gap: 4px; margin-bottom: 6px; align-items: center;">
+<span style="background: #FFA500; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600;">CAUTION</span>
+<span style="font-size: 11px; color: #666;">1 miss</span>
+</div>
+<div style="font-size: 11px; color: #999; line-height: 1.5;">
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Accuracy:</span> 78%</div>
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Latency:</span> 180ms</div>
+<div><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Cost:</span> $22K/mo</div>
+</div>
+<button style="width: 100%; margin-top: 8px; padding: 6px; background: #0066cc; color: white; border: none; border-radius: 3px; font-size: 11px; cursor: pointer;">Select</button>
+</div>
+<div style="background: white; border: 1px solid #DC3545; border-radius: 6px; padding: 12px; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 8px;">Scenario C</div>
+<div style="display: flex; gap: 4px; margin-bottom: 6px; align-items: center;">
+<span style="background: #DC3545; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-weight: 600;">BLOCKED</span>
+<span style="font-size: 11px; color: #666;">Compliance</span>
+</div>
+<div style="font-size: 11px; color: #999; line-height: 1.5;">
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Accuracy:</span> 91%</div>
+<div style="margin-bottom: 4px;"><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Latency:</span> 120ms</div>
+<div><span style="font-family: 'JetBrains Mono'; font-weight: 600;">Cost:</span> $15K/mo</div>
+</div>
+<button style="width: 100%; margin-top: 8px; padding: 6px; background: #ccc; color: #666; border: none; border-radius: 3px; font-size: 11px; cursor: not-allowed;">View block</button>
+</div>
+</div>
+</div>
+
+<!-- Version / Override History -->
+<div style="border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px; background: #fafafa;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Version / Override History</div>
+<div style="background: white; border: 1px solid #e8e8e8; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.6;">
+<div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid #e8e8e8;">
+<div style="font-weight: 600; color: #333; flex: 1;">v3 · Current (14 Oct, 2:43p)</div>
+<div style="color: #666; text-align: right;">Constraints updated: Cost &lt;$40K</div>
+</div>
+<div style="display: flex; gap: 12px; padding: 12px 0; padding-bottom: 12px; border-bottom: 1px solid #e8e8e8;">
+<div style="color: #999;">v2 (13 Oct, 11:20a)</div>
+<div style="color: #666;">Scenario A rejected · Reverted to B</div>
+</div>
+<div style="display: flex; gap: 12px; padding: 12px 0;">
+<div style="color: #999;">v1 (13 Oct, 9:15a)</div>
+<div style="color: #666;">Initial recommendation</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

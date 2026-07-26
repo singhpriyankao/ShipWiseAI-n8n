@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<meta name="design_doc_mode" content="canvas">
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+body { margin: 0; font-family: Inter, sans-serif; background: #f8f8f8; color: #1a1a1a; }
+a { color: #0066cc; text-decoration: none; } a:hover { text-decoration: underline; }
+</style>
+</helmet>
+
+<section id="1a" style="display: grid; grid-template-columns: 1fr 320px; gap: 24px; padding: 24px; background: #f8f8f8; min-height: 100vh;">
+
+<!-- Main content -->
+<div style="display: flex; flex-direction: column; gap: 24px;">
+
+<!-- Header + Constraint Bar -->
+<div style="background: white; border-radius: 8px; padding: 20px; border: 1px solid #e8e8e8;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+<div>
+<h1 style="font-size: 22px; font-weight: 700; margin: 0 0 4px 0;">Customer Support AI Model Stack</h1>
+<div style="font-size: 13px; color: #666;">SaaS B2D firm · Competitive analysis underway</div>
+</div>
+<div style="text-align: right; font-size: 12px; color: #999;">Last updated: 2 hours ago</div>
+</div>
+<div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; background: #f8f8f8; border: 1px solid #d0d0d0; border-radius: 6px; padding: 12px 14px; margin-top: 12px;">
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: white; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Accuracy</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">≥80%</span>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: white; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Latency</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">&lt;300ms</span>
+</div>
+<div style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: white; border: 1px solid #d0d0d0; border-radius: 4px; font-size: 12px; cursor: pointer;">
+<span>Cost/mo</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">&lt;$50K</span>
+</div>
+<button style="margin-left: auto; padding: 6px 12px; background: #0066cc; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer;">Edit & Re-run</button>
+</div>
+</div>
+
+<!-- Regulatory Block (if any) -->
+<div style="background: #fff3f0; border-left: 4px solid #DC3545; border-radius: 8px; padding: 16px; border: 1px solid #ffcccc;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+<div>
+<div style="font-weight: 600; color: #DC3545; margin-bottom: 6px;">Compliance Block: GDPR Data Residency</div>
+<div style="color: #333; line-height: 1.5; font-size: 13px;">Model Stack Option B routes customer data outside EU. Regulations agent blocks this scenario per GDPR § 44-49.</div>
+<div style="margin-top: 8px; font-size: 12px; color: #666; font-family: 'JetBrains Mono';">Precedent: <a href="#" style="color: #DC3545; font-weight: 600;">GDPR case law 2024</a></div>
+</div>
+<button style="padding: 4px 12px; background: white; border: 1px solid #DC3545; color: #DC3545; border-radius: 3px; font-size: 11px; font-weight: 500; cursor: pointer; white-space: nowrap;">Override</button>
+</div>
+</div>
+
+<!-- Reasoning Trace -->
+<div style="background: white; border-radius: 8px; padding: 20px; border: 1px solid #e8e8e8;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Orchestrator Plan</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px; line-height: 1.6;">
+<div style="display: flex; gap: 10px;">
+<span style="color: #4CAF50; font-weight: 600; flex-shrink: 0;">✓</span>
+<span style="color: #333;">Fetch competitor model performance data (200 firms)</span>
+</div>
+<div style="display: flex; gap: 10px;">
+<span style="color: #4CAF50; font-weight: 600; flex-shrink: 0;">✓</span>
+<span style="color: #333;">Map available model stacks against accuracy/latency/cost constraints</span>
+</div>
+<div style="display: flex; gap: 10px;">
+<span style="color: #FFA500; font-weight: 600; flex-shrink: 0;">⋯</span>
+<span style="color: #666;">Query regulatory precedent for GDPR, HIPAA, SOC2 (in progress)</span>
+</div>
+<div style="display: flex; gap: 10px;">
+<span style="color: #9E9E9E; font-weight: 600; flex-shrink: 0;">○</span>
+<span style="color: #999;">Synthesize 3 scenarios (pending regulatory review)</span>
+</div>
+</div>
+</div>
+
+<!-- Scenario Comparison (3 options) -->
+<div style="background: white; border-radius: 8px; padding: 20px; border: 1px solid #e8e8e8;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Recommended Scenarios</div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+
+<!-- Scenario A: Recommended -->
+<div style="background: #f0f8f0; border: 2px solid #4CAF50; border-radius: 8px; padding: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+<div style="font-weight: 600; font-size: 13px;">Scenario A</div>
+<div style="background: #4CAF50; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">RECOMMENDED</div>
+</div>
+<div style="display: flex; gap: 4px; margin-bottom: 12px; align-items: center;">
+<span style="background: #4CAF50; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">PASS</span>
+<span style="font-size: 11px; color: #333;">All constraints</span>
+</div>
+<div style="font-size: 11px; color: #333; line-height: 1.8; margin-bottom: 12px;">
+<div><strong>Model Stack:</strong></div>
+<div style="font-family: 'JetBrains Mono'; color: #666; font-size: 10px;">GPT-4 Turbo (routing) + Llama 3 (detection)</div>
+<div style="margin-top: 6px; border-top: 1px solid #ddd; padding-top: 8px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Accuracy</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">82%</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Latency</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">245ms</span>
+</div>
+<div style="display: flex; justify-content: space-between;">
+<span>Cost/mo</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">$38K</span>
+</div>
+</div>
+</div>
+<button style="width: 100%; padding: 8px; background: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve</button>
+<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 10px; color: #666;"><a href="#" style="color: #0066cc;">View citations</a> · <a href="#" style="color: #0066cc;">Explain</a></div>
+</div>
+
+<!-- Scenario B: Caution -->
+<div style="background: white; border: 2px solid #FFA500; border-radius: 8px; padding: 16px;">
+<div style="font-weight: 600; margin-bottom: 12px; font-size: 13px;">Scenario B</div>
+<div style="display: flex; gap: 4px; margin-bottom: 12px; align-items: center;">
+<span style="background: #FFA500; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">CAUTION</span>
+<span style="font-size: 11px; color: #666;">Misses accuracy</span>
+</div>
+<div style="font-size: 11px; color: #333; line-height: 1.8; margin-bottom: 12px;">
+<div><strong>Model Stack:</strong></div>
+<div style="font-family: 'JetBrains Mono'; color: #666; font-size: 10px;">Llama 3 (routing) + Claude 3 (detection)</div>
+<div style="margin-top: 6px; border-top: 1px solid #ddd; padding-top: 8px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Accuracy</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600; color: #FFA500;">78%</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Latency</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">180ms</span>
+</div>
+<div style="display: flex; justify-content: space-between;">
+<span>Cost/mo</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">$22K</span>
+</div>
+</div>
+</div>
+<button style="width: 100%; padding: 8px; background: #FFA500; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Accept Risk</button>
+<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 10px; color: #666;"><a href="#" style="color: #0066cc;">View citations</a> · <a href="#" style="color: #0066cc;">Explain</a></div>
+</div>
+
+<!-- Scenario C: Blocked -->
+<div style="background: white; border: 2px solid #DC3545; border-radius: 8px; padding: 16px; opacity: 0.6;">
+<div style="font-weight: 600; margin-bottom: 12px; font-size: 13px;">Scenario C</div>
+<div style="display: flex; gap: 4px; margin-bottom: 12px; align-items: center;">
+<span style="background: #DC3545; color: white; padding: 3px 8px; border-radius: 3px; font-size: 10px; font-weight: 600;">BLOCKED</span>
+<span style="font-size: 11px; color: #666;">GDPR violation</span>
+</div>
+<div style="font-size: 11px; color: #333; line-height: 1.8; margin-bottom: 12px;">
+<div><strong>Model Stack:</strong></div>
+<div style="font-family: 'JetBrains Mono'; color: #666; font-size: 10px;">GPT-4o + Claude 3 Opus (routing)</div>
+<div style="margin-top: 6px; border-top: 1px solid #ddd; padding-top: 8px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Accuracy</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">91%</span>
+</div>
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span>Latency</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">120ms</span>
+</div>
+<div style="display: flex; justify-content: space-between;">
+<span>Cost/mo</span>
+<span style="font-family: 'JetBrains Mono'; font-weight: 600;">$15K</span>
+</div>
+</div>
+</div>
+<button style="width: 100%; padding: 8px; background: #ccc; color: #666; border: none; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: not-allowed;">Blocked</button>
+<div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #ddd; font-size: 10px; color: #DC3545;"><a href="#" style="color: #DC3545;">View compliance issue</a></div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<!-- Right sidebar: Quick info -->
+<div style="display: flex; flex-direction: column; gap: 16px;">
+
+<div style="background: white; border-radius: 8px; padding: 16px; border: 1px solid #e8e8e8; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; font-size: 11px;">Recommendation Status</div>
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+<div style="width: 8px; height: 8px; background: #7a9c5c; border-radius: 50%;"></div>
+<span><strong>Confidence:</strong> <span style="font-family: 'JetBrains Mono';">84%</span></span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<div style="width: 8px; height: 8px; background: #4CAF50; border-radius: 50%;"></div>
+<span><strong>Compliance:</strong> Pass</span>
+</div>
+</div>
+
+<div style="background: white; border-radius: 8px; padding: 16px; border: 1px solid #e8e8e8; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; font-size: 11px;">Version History</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 11px;">
+<div style="padding-bottom: 10px; border-bottom: 1px solid #e8e8e8;">
+<div style="font-weight: 600; color: #333;">v3 · Current</div>
+<div style="color: #999; font-size: 10px;">Cost &lt;$50K</div>
+</div>
+<div style="padding-bottom: 10px; border-bottom: 1px solid #e8e8e8;">
+<div style="color: #999;">v2</div>
+<div style="color: #999; font-size: 10px;">Scenario A rejected</div>
+</div>
+<div>
+<div style="color: #999;">v1</div>
+<div style="color: #999; font-size: 10px;">Initial run</div>
+</div>
+</div>
+</div>
+
+<div style="background: white; border-radius: 8px; padding: 16px; border: 1px solid #e8e8e8; font-size: 12px;">
+<div style="font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #666; font-size: 11px;">Agent Execution</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 11px;">
+<div style="display: flex; gap: 6px;"><span style="color: #4CAF50;">✓</span> <span>Model Perf</span></div>
+<div style="display: flex; gap: 6px;"><span style="color: #4CAF50;">✓</span> <span>Model Stack</span></div>
+<div style="display: flex; gap: 6px;"><span style="color: #FFA500;">⋯</span> <span style="color: #666;">Regulations</span></div>
+<div style="display: flex; gap: 6px;"><span style="color: #9E9E9E;">○</span> <span style="color: #999;">Synthesis</span></div>
+</div>
+</div>
+
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<meta name="design_doc_mode" content="canvas">
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+body { margin: 0; font-family: Inter, sans-serif; background: #ffffff; color: #1a1a1a; }
+a { color: #0099ff; text-decoration: none; } a:hover { text-decoration: underline; }
+</style>
+</helmet>
+
+<section id="1a" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 100vh; position: relative;">
+
+<!-- Left: Hero with gradient -->
+<div style="background: linear-gradient(135deg, #0f766e 0%, #6366f1 100%); padding: 60px 48px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+
+<!-- Subtle accent shapes -->
+<div style="position: absolute; top: -80px; right: -80px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+<div style="position: absolute; bottom: 100px; left: -60px; width: 150px; height: 150px; background: rgba(255,255,255,0.03); border-radius: 50%;"></div>
+
+<div style="position: relative; z-index: 2;">
+<!-- Logo -->
+<div style="margin-bottom: 48px;">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Compass/Ship wheel inspired logo -->
+  <circle cx="16" cy="16" r="14" stroke="#00d4ff" stroke-width="2" fill="none"/>
+  <circle cx="16" cy="16" r="10" stroke="#00d4ff" stroke-width="1.5" fill="none"/>
+  <!-- Cardinal points -->
+  <path d="M 16 6 L 16 10" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 22 16 L 18 16" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M 16 26 L 16 22" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M 10 16 L 14 16" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Center dot -->
+  <circle cx="16" cy="16" r="2.5" fill="#00d4ff"/>
+  <!-- NE accent -->
+  <path d="M 20.5 11.5 L 22 10" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+</svg>
+</div>
+
+<div style="margin-bottom: 48px;">
+<div style="font-size: 32px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; color: white;">ShipWise AI</div>
+<div style="font-size: 15px; color: #e0eef8; font-weight: 400;">Stop guessing. Start shipping with confidence—regulations included.</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 40px;">
+
+<!-- Research feature -->
+<div>
+<div style="width: 44px; height: 44px; background: rgba(0, 212, 255, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; border: 1px solid rgba(0, 212, 255, 0.3);">📊</div>
+<div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: white;">Cut Research Time by 80%</div>
+<div style="font-size: 14px; line-height: 1.6; color: #c5deff;">
+Competitive benchmarks, market positioning, and model performance data — automatically gathered and synthesized. No more manual research spreadsheets.
+</div>
+</div>
+
+<!-- Recommend feature -->
+<div>
+<div style="width: 44px; height: 44px; background: rgba(0, 212, 255, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; border: 1px solid rgba(0, 212, 255, 0.3);">⚡</div>
+<div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: white;">Regulations Built In</div>
+<div style="font-size: 14px; line-height: 1.6; color: #c5deff;">
+GDPR, EU AI Act compliance flags appear alongside your model recommendations. No surprises at launch.
+</div>
+</div>
+
+<!-- Learn feature -->
+<div>
+<div style="width: 44px; height: 44px; background: rgba(0, 212, 255, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 14px; border: 1px solid rgba(0, 212, 255, 0.3);">🎯</div>
+<div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: white;">Learn from Real Outcomes</div>
+<div style="font-size: 14px; line-height: 1.6; color: #c5deff;">
+30/60/90-day feedback loops let the system learn what works for your company. Next recommendation gets better because it's calibrated to *your* data.
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="position: relative; z-index: 2; padding-top: 32px; border-top: 1px solid rgba(255, 255, 255, 0.15);">
+<div style="font-size: 12px; color: #99bce8; margin-bottom: 16px;">Built for product teams shipping AI features.</div>
+<div style="display: flex; gap: 12px; font-size: 12px;">
+<a href="#" style="color: #00d4ff;">Privacy</a>
+<span style="color: rgba(255, 255, 255, 0.3);">·</span>
+<a href="#" style="color: #00d4ff;">Terms</a>
+<span style="color: rgba(255, 255, 255, 0.3);">·</span>
+<a href="#" style="color: #00d4ff;">Docs</a>
+</div>
+</div>
+</div>
+
+<!-- Right: Sign-in / Onboarding -->
+<div style="background: white; padding: 60px 48px; display: flex; flex-direction: column; justify-content: center;">
+
+<div style="max-width: 380px;">
+
+<div style="margin-bottom: 40px;">
+<div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Welcome</div>
+<div style="font-size: 14px; color: #666;">Sign in to start your first evaluation</div>
+</div>
+
+<!-- Email input -->
+<div style="margin-bottom: 16px;">
+<label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: #333;">Email</label>
+<input type="email" placeholder="you@company.com" style="width: 100%; padding: 12px 14px; border: 1px solid #d0d0d0; border-radius: 6px; font-family: Inter; font-size: 14px; box-sizing: border-box; outline: none; transition: border 0.2s;" />
+</div>
+
+<!-- Password input -->
+<div style="margin-bottom: 24px;">
+<label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: #333;">Password</label>
+<input type="password" placeholder="••••••••" style="width: 100%; padding: 12px 14px; border: 1px solid #d0d0d0; border-radius: 6px; font-family: Inter; font-size: 14px; box-sizing: border-box; outline: none; transition: border 0.2s;" />
+<div style="text-align: right; margin-top: 6px;">
+<a href="#" style="font-size: 12px; color: #0099ff;">Forgot password?</a>
+</div>
+</div>
+
+<!-- CTA Button -->
+<button style="width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 6px; font-family: Inter; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s;">Sign In</button>
+
+<!-- Signup link -->
+<div style="text-align: center; font-size: 13px; color: #666;">
+Don't have an account? <a href="#" style="color: #0099ff; font-weight: 600;">Create one</a>
+</div>
+
+<!-- Divider -->
+<div style="display: flex; align-items: center; gap: 12px; margin: 32px 0;">
+<div style="flex: 1; height: 1px; background: #e8e8e8;"></div>
+<div style="font-size: 12px; color: #999;">or</div>
+<div style="flex: 1; height: 1px; background: #e8e8e8;"></div>
+</div>
+
+<!-- SSO Options -->
+<button style="width: 100%; padding: 12px; background: white; color: #333; border: 1px solid #d0d0d0; border-radius: 6px; font-family: Inter; font-size: 14px; font-weight: 500; cursor: pointer; margin-bottom: 10px; transition: background 0.2s;">Continue with Google</button>
+<button style="width: 100%; padding: 12px; background: white; color: #333; border: 1px solid #d0d0d0; border-radius: 6px; font-family: Inter; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s;">Continue with Slack</button>
+
+<!-- Trust indicator -->
+<div style="margin-top: 32px; padding: 12px; background: #f9f9f9; border-radius: 6px; text-align: center;">
+<div style="font-size: 12px; color: #666;">🔐 Enterprise security</div>
+<div style="font-size: 11px; color: #999; margin-top: 4px;">ISO 27001 · SOC 2 Type II · GDPR compliant</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
