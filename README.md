@@ -15,7 +15,7 @@ flowchart TD
     O -->|feature description| CA[Competitive Analysis<br/>competitor seed table embedded in prompt]
     O -->|feature + jurisdiction + data handling| REG[Regulations<br/>RAG over EU AI Act + GDPR]
     REG --> GATE{jurisdiction == EU?}
-    GATE -->|no| FIXED[Deterministic fallback:<br/>"not covered" — no LLM call]
+    GATE -->|no| FIXED[Deterministic fallback:<br/>'not covered' — no LLM call]
     GATE -->|yes| VEC[(Vector store retrieval)]
     MSA --> O
     CA --> O
