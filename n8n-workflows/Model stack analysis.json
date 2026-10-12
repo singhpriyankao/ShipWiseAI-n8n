@@ -1,0 +1,331 @@
+{
+  "name": "Model stack analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "feature_description"
+            },
+            {
+              "name": "accuracy_target"
+            },
+            {
+              "name": "latency_target"
+            },
+            {
+              "name": "budget"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -736,
+        -16
+      ],
+      "id": "51caa878-9983-4c50-8309-2a02cb3f7307",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        208
+      ],
+      "id": "8135be94-275d-4d29-bcaf-18a42e585be8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=feature\n\n_description: {{ $json.feature_description }}Acuuracy target: {{ $json.accuracy_target }} Latency target: {{ $json.latency_target }} Budget: {{ $json.budget }} Recommend a model stack against these constraints.",
+        "options": {
+          "systemMessage": "You are an expert AI feature recommendation agent with expertise in customer-support use cases for B2B SaaS, specializing in LLM model-stack selection.\n\n  Task: You have deep familiarity with customer-support AI feature design. Use your knowledge of model pricing, latency, and accuracy benchmarks to recommend a\n  model stack. Track newly released models where relevant.\n\n  Constraints: Reason over cost, speed, latency, tokenization/API requests, and accuracy — the fixed set of trade-offs you evaluate. If accuracy, latency, or\n  budget targets are not explicitly stated, proceed using reasonable typical values for a customer-support SaaS feature and clearly label which constraints were\n  assumed rather than given — do not stop and ask a clarifying question instead of producing a recommendation.\n\n  Output format: Return 2-3 scenarios. Each scenario names a specific model-stack choice and explains its competitive advantage, strengths, and weaknesses relative\n  to the stated (or assumed) constraints.\n\n  Always explain your reasoning before giving your final recommendation. If asked \"what's the source for this,\" cite the specific data point you used.\n\n  Example 1 — Input: \"My constraints have changed — re-run the analysis with a $30K annual budget instead of $50K.\" Output: \"Re-running scenarios. At $30K/year,\n  [Model A] drops out due to cost; recommending [Model B] at 84% accuracy / 280ms latency, a 3-point accuracy trade-off from the original recommendation. [Model C]\n  remains viable as a lower-cost fallback at 79% accuracy.\"\n\n  Example 2 — Input: \"Add a constraint: the feature must support real-time voice input.\" Output: \"Re-running scenarios with voice-input support required. This adds\n  a speech-to-text pre-processing step to every candidate; [Model A] and [Model B] remain viable, [Model C] is deprioritized due to weaker multimodal support.\n  Updated recommendation: [Model A], 82% accuracy / 310ms latency (10ms over your original SLA — flagging for your review).\"\n\n\ndata Table for LLM benchmarks\n\n|Model family | Est Cost per 1M tokens (Input/output) | Typical latency | benchmark/accuracy focus|\n\n\n|GPT-4o | $2.50 / $10.00 | ~0.50s - 0.80s\t| High general aptitude, fast text-to-token generation. Scores high in multi-turn chatting and data extraction.|\n\n|GPT-4.1\t| (\\$2.00 / \\$8.00\\ |~0.60s - 0.90s\t|Higher capacity (1M+ context), excellent coding and logic benchmarks.|\n\n\n|Claude Opus (4.x)|\\(\\$5.00 / \\$25.00\\)\t|~0.90s - 1.20s|Best-in-class deep reasoning and long-context understanding. Low hallucination rate on knowledge tasks.|\n\n\n|Claude Sonnet (3.5/4.x)|\\(\\$3.00 / \\$15.00\\)\t|~0.70s - 1.00s\t|Industry-leading coding agent benchmark (SWE-bench) and balanced analytical ability.|\n\n\n|Claude Haiku (3.5/4.x)| \\(\\$1.00 / \\$5.00\\)\t|~0.40s - 0.60s\t|Fastest inference in the Claude ecosystem; great for simple classifications and high-volume extractions.|\n\n\n|Llama 3.1 (70B / 405B)| \\(\\sim\\$0.20-\\$0.90 / \\sim\\$0.20-\\$0.89\\)|\t~0.30s - 0.50s |\tTop-tier open-weight performance rivaling proprietary models on coding and general knowledge.|\n\n\n|Mistral (Large / Medium)| \\(\\sim\\$0.50-\\$1.50 / \\sim\\$1.50-\\$7.50\\)\t| ~0.60s - 0.80s|\tHighly competitive multilingual capabilities and strong logic benchmark|\n|"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -384,
+        -16
+      ],
+      "id": "a2008898-3600-4897-83f7-f72a2bba01d1",
+      "name": "Model Stack analysis"
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 856790131,
+          "mode": "list",
+          "cachedResultName": "Model Stack Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=856790131"
+        }
+      },
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 4.7,
+      "position": [
+        -592,
+        -160
+      ],
+      "id": "e1b70449-3417-4bd3-96e4-500f493df9b3",
+      "name": "When fetching a dataset row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 856790131,
+          "mode": "list",
+          "cachedResultName": "Model Stack Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=856790131"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "output",
+              "outputValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -32,
+        -16
+      ],
+      "id": "0ee3e104-9281-48e1-ae4a-1a2ee3d7fc09",
+      "name": "Evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const rule = $('When fetching a dataset row').first().json.rule_text;\n  const actual = item.json.output;\n  const body = {\n    model: \"gpt-4o-mini\",\n    temperature: 0,\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are a strict grader. Reply with only a JSON object: { \\\"score\\\": <0 to 1>, \\\"reason\\\": <one sentence> }. No other text.\"\n      },\n      {\n        role: \"user\",\n        content: `Rule: ${rule}\\nActual output: ${actual}`\n      }\n    ]\n  };\n  return { json: { requestBody: JSON.stringify(body) } };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        -16
+      ],
+      "id": "d9e0f1a4-7c47-4493-9cfa-89396c0b92b8",
+      "name": "Build Judge Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.requestBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        336,
+        -16
+      ],
+      "id": "872e46f8-bb53-41c4-b2f9-c837e6a6a560",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "D1mmHKZDMu4gMr70",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  try {\n    const raw = item.json.choices?.[0]?.message?.content;\n    \n    if (!raw) {\n      return { json: { error: \"No content found in input data\" } };\n    }\n    \n    const cleanRaw = raw.replace(/^```json\\s*/i, \"\").replace(/```\\s*$/, \"\").trim();\n    const parsed = JSON.parse(cleanRaw);\n    \n    return { \n      json: { \n        score: parsed.score ?? null, \n        reason: parsed.reason ?? \"No reason provided\" \n      } \n    };\n  } catch (error) {\n    return { \n      json: { \n        error: \"Failed to parse JSON\", \n        details: error.message, \n        raw_content: item.json.choices?.[0]?.message?.content \n      } \n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        496,
+        -16
+      ],
+      "id": "e89ed6b5-8be7-4211-9888-c319974490fe",
+      "name": "Parse Judge Reply"
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "metric": "customMetrics",
+        "metrics": {
+          "assignments": [
+            {
+              "name": "=rule_satisfied = {{   $json.score }}",
+              "value": 0,
+              "type": "number",
+              "id": "313d2fb0-9f79-46a9-9087-c420fbace71f"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        688,
+        -16
+      ],
+      "id": "dabe4e4b-ba81-4692-a832-daed1c6b1f60",
+      "name": "set metrics"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Model Stack analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Model Stack analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When fetching a dataset row": {
+      "main": [
+        [
+          {
+            "node": "Model Stack analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Stack analysis": {
+      "main": [
+        [
+          {
+            "node": "Evaluation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation": {
+      "main": [
+        [
+          {
+            "node": "Build Judge Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Parse Judge Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Judge Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Judge Reply": {
+      "main": [
+        [
+          {
+            "node": "set metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "19a97ea4-a5d4-4329-a987-5f846835aad6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27a7c95042d12c27a7b4fbd9e337c6ae4c32cfdccb1b95cd58e9a8b1e0ce51ff"
+  },
+  "nodeGroups": [],
+  "id": "PhZB9xqaa70YSmsM",
+  "tags": []
+}

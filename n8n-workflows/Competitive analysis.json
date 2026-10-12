@@ -1,0 +1,323 @@
+{
+  "name": "Competitive analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "events": "workflow_call",
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "feature_description"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -64
+      ],
+      "id": "1e1778d7-3d9e-4ca0-a8a5-f37869c420c9",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.feature_description }}",
+        "options": {
+          "systemMessage": "You are an expert AI feature recommendation agent with expertise in\n  customer-support use cases for B2B SaaS, specializing in competitive\n  product intelligence.\n\n\n\n\nKnown competitor reference data (directional — verify current claims\n  before relying on this in production):\n\n  | Product | Vendor | Stated accuracy | Stated latency | Pricing\n  positioning |\n  |---|---|---|---|---|\n  | Fin | Intercom | ~86% resolution rate (Intercom's own published claim)\n  | Not publicly specified | Usage-based, per resolution |\n  | Zendesk AI | Zendesk | ~80%+ automated resolution rate (Zendesk's own\n  published claim) | Not publicly specified | Bundled into higher-tier\n  Zendesk plans |\n  | Ada | Ada | Customer-reported resolution rates vary by deployment | Not\n  publicly specified | Enterprise, custom pricing |\n  | Forethought | Forethought | Customer-reported resolution rates vary by\n  deployment | Not publicly specified | Usage-based |\n\n  This table is a starting reference, not a live source. Treat any number\n  here as unverified unless you can also state where it came from. If you\n  don't have grounded information about a competitor beyond this table, say\n  so rather than inventing specifics.\n\n  Task: Run a structured market search: identify real, named products that\n  compete with the described feature, and how each positions itself on\n  accuracy, latency, and pricing.\n\n  Constraints: Only report on customer-support AI products. Do not evaluate\n  or recommend LLM providers (GPT-4, Claude, etc.) — that is a different\n  agent's job. If you're not confident a competitor claim is accurate, say\n  so rather than presenting it as fact.\n\n  Output format: Return 2-3 named competitor products. For each, state how\n  it positions accuracy, latency, and pricing (cite your source for each\n  claim), and how it compares to the feature described by the user.\n\n  If asked \"what's the source for this,\" cite the specific data point\n  (product page, changelog, review) you used."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        144,
+        -64
+      ],
+      "id": "44cabba7-0047-42b0-8634-52b2a45b8e85",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        176
+      ],
+      "id": "e7286500-04e0-430b-b8bb-23b2aacf9f06",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541404917,
+          "mode": "list",
+          "cachedResultName": "Competitive Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=1541404917"
+        }
+      },
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 4.7,
+      "position": [
+        -192,
+        -256
+      ],
+      "id": "cd05d302-5244-4e38-af7b-40ab6dc0780a",
+      "name": "When fetching a dataset row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1541404917,
+          "mode": "list",
+          "cachedResultName": "Competitive Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=1541404917"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "output",
+              "outputValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        496,
+        -64
+      ],
+      "id": "8fb67eb3-ab0e-4922-936a-cf9064aceda8",
+      "name": "Evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const rule = $('When fetching a dataset row').first().json.rule_text;\n  const actual = item.json.output;\n  const body = {\n    model: \"gpt-4o-mini\",\n    temperature: 0,\n    messages: [\n      {\n        role: \"system\",\n        content: \"You are a strict grader. Reply with only a JSON object: { \\\"score\\\": <0 to 1>, \\\"reason\\\": \\\"<one sentence>\\\" }. No other text.\"\n      },\n      {\n        role: \"user\",\n        content: `Rule: ${rule}\\nActual output: ${actual}`\n      }\n    ]\n  };\n  return { json: { requestBody: JSON.stringify(body) } };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        -64
+      ],
+      "id": "29afb8c5-297a-46a6-8889-b0670b0a692e",
+      "name": "Build Judge Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.requestBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        928,
+        -64
+      ],
+      "id": "0f7915a9-1422-4a60-84ac-c39490aa10ad",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "D1mmHKZDMu4gMr70",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  try {\n    const raw = item.json.choices?.[0]?.message?.content;\n    \n    if (!raw) {\n      return { json: { error: \"No content found in input data\" } };\n    }\n    \n    const cleanRaw = raw.replace(/^```json\\s*/i, \"\").replace(/```\\s*$/, \"\").trim();\n    const parsed = JSON.parse(cleanRaw);\n    \n    return { \n      json: { \n        score: parsed.score ?? null, \n        reason: parsed.reason ?? \"No reason provided\" \n      } \n    };\n  } catch (error) {\n    return { \n      json: { \n        error: \"Failed to parse JSON\", \n        details: error.message, \n        raw_content: item.json.choices?.[0]?.message?.content \n      } \n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        -64
+      ],
+      "id": "e75c31cf-49ad-4953-b51e-fc6e69eb8d86",
+      "name": "Parse Judge Reply"
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "metric": "customMetrics",
+        "metrics": {
+          "assignments": [
+            {
+              "name": "=rule_satisfied = {{   $json.score }}",
+              "value": 0,
+              "type": "number",
+              "id": "313d2fb0-9f79-46a9-9087-c420fbace71f"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        1328,
+        -64
+      ],
+      "id": "c68b4a03-9649-49bd-bd0f-bb5a67f50e6a",
+      "name": "Evaluation1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Evaluation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Judge Reply": {
+      "main": [
+        [
+          {
+            "node": "Evaluation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When fetching a dataset row": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Judge Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Parse Judge Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation": {
+      "main": [
+        [
+          {
+            "node": "Build Judge Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e6adfbbc-f4e0-47b5-961d-d43782069087",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27a7c95042d12c27a7b4fbd9e337c6ae4c32cfdccb1b95cd58e9a8b1e0ce51ff"
+  },
+  "nodeGroups": [],
+  "id": "nJmOGSNty5uh6yMk",
+  "tags": []
+}

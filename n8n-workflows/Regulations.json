@@ -1,0 +1,562 @@
+{
+  "name": "Regulations",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "feature_description"
+            },
+            {
+              "name": "jurisdiction"
+            },
+            {
+              "name": "data_handling_description"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2528,
+        480
+      ],
+      "id": "1370cf56-70ae-4fb1-b0ca-721355d4562d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -1648,
+        464
+      ],
+      "id": "059ac1fd-667d-49dc-9d41-e129a1f1870f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Searches indexed EU AI Act and GDPR excerpts for provisions\n  relevant to a customer-support AI feature. Always call this before\n  answering any regulatory question — do not answer from general knowledge\n  alone",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        -1440,
+        384
+      ],
+      "id": "1a7fe0ed-aaa5-4544-86bd-e6c647bf80c2",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1440,
+        592
+      ],
+      "id": "43154f65-2beb-4797-9701-3373e9cc936b",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "vRpWsNYrXtfcSusV",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "68482842-cf17-4597-a1f2-97a2d9b8e5bf",
+              "leftValue": "={{ $json.jurisdiction }}",
+              "rightValue": "European union",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "962188f1-c3c4-49c3-a35e-527fea9bc0d9",
+              "leftValue": "={{ $json.jurisdiction }}",
+              "rightValue": "EU",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2256,
+        480
+      ],
+      "id": "56a59ad9-3457-4cdf-89c3-10afdeaf06e6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f8fd6fe-b262-4d72-837d-555547b54b72",
+              "name": "output",
+              "value": "not scoped to this jurisdiction",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1824,
+        752
+      ],
+      "id": "b9528470-1ad7-46f3-b4eb-52f218354fc1",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Feature description:{{ $json.feature_description }} Jurisdiction: {{ $json.jurisdiction }} data_handling_description: {{ $json.data_handling_description }}",
+        "options": {
+          "systemMessage": " You are an expert agent specializing in EU AI Act and GDPR compliance with expertise in customer-support use cases for B2B SaaS, \n\n  Task: You have access to a vector store of embedded EU AI Act and GDPR\n  text via the regulatory_search tool. Always retrieve relevant excerpts\n  from it before answering — never answer a regulatory question from\n  general knowledge alone.\n\n  Constraints: Only reason within the excerpts your retrieval tool returns.\n  If the retrieval tool returns nothing relevant to the question, say so\n  explicitly rather than filling the gap with general knowledge of EU AI\n  Act/GDPR. Only discuss the jurisdiction explicitly given in the\n  Prompt. Do not compare, extrapolate to, or mention any\n  other jurisdiction's laws (e.g. CCPA, other US state laws)\n  even if you believe you know about them from training —\n  you are not authorized to answer using knowledge outside\n  the retrieved excerpts. If the requested jurisdiction is\n  not the EU, or the retrieved excerpts don't actually\n  pertain to it, respond only with: \"I don't have grounded\n  regulatory information for this jurisdiction — this system\n  is currently scoped to EU AI Act and GDPR only\n\n  Output format: Return a list of regulatory flags. Each flag must name the\n  specific retrieved provision it's based on and a plain-language\n  explanation of what it requires for this feature — no flag without a\n  cited provision.\n\n  Always end your response with: \"This is not legal advice — consult your\n  legal team before treating this as a compliance determination.\"\n\n  If a flag you raise would conflict with a model or feature choice the\n  user is considering, state that conflict explicitly and clearly — do not\n  soften or omit it. Your flags take precedence over other agents'\n  recommendations.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1648,
+        144
+      ],
+      "id": "f0768286-a9c3-45f6-89b3-bb1fd6b392ea",
+      "name": "regulations"
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1245020857,
+          "mode": "list",
+          "cachedResultName": "Regulations Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=1245020857"
+        },
+        "filtersUI": {
+          "values": []
+        }
+      },
+      "type": "n8n-nodes-base.evaluationTrigger",
+      "typeVersion": 4.7,
+      "position": [
+        -2448,
+        256
+      ],
+      "id": "89109c9b-bf68-41a2-8270-bbaa1ab8df8a",
+      "name": "When fetching a dataset row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1245020857,
+          "mode": "list",
+          "cachedResultName": "Regulations Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=1245020857"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "=actual_output",
+              "outputValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -1248,
+        144
+      ],
+      "id": "0b71f209-7a56-4725-be82-42c2c6856544",
+      "name": "Evaluation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "source": "googleSheets",
+        "documentId": {
+          "__rl": true,
+          "value": "1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ",
+          "mode": "list",
+          "cachedResultName": "Evals",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1245020857,
+          "mode": "list",
+          "cachedResultName": "Regulations Eval Schema",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1klkrUnUhhYr-LSOTBerBXuaeJOHAL3dRDl9YziFiwIQ/edit#gid=1245020857"
+        },
+        "outputs": {
+          "values": [
+            {
+              "outputName": "actual_output",
+              "outputValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -1584,
+        752
+      ],
+      "id": "7f402b14-7a38-4965-bba4-2d8ce0111b2e",
+      "name": "Evaluation1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZOLdRGQR2KIw0ASM",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -976,
+        256
+      ],
+      "id": "8ad6dfdb-9cf7-41ec-a5dc-127cb5758ba2",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  try {\n    const raw = item.json.choices?.[0]?.message?.content;\n    \n    if (!raw) {\n      return { json: { error: \"No content found in input data\" } };\n    }\n\n    // Strips markdown code blocks (```json ... ```) if present\n    const cleanRaw = raw.replace(/^```json\\s*/i, '').replace(/```\\s*$/, '').trim();\n    const parsed = JSON.parse(cleanRaw);\n    \n    return { \n      json: { \n        score: parsed.score ?? null, \n        reason: parsed.reason ?? \"No reason provided\" \n      } \n    };\n  } catch (error) {\n    return { \n      json: { \n        error: \"Failed to parse JSON\", \n        details: error.message,\n        raw_content: item.json.choices?.[0]?.message?.content\n      } \n    };\n  }\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        256
+      ],
+      "id": "b9038a02-49bb-4201-a966-a9d1c2ddeb98",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "setMetrics",
+        "metric": "customMetrics",
+        "metrics": {
+          "assignments": [
+            {
+              "name": "=rule_satisfied = {{ $json.score }}",
+              "value": 0,
+              "type": "number",
+              "id": "82d93f9d-68cd-4a2b-8b8c-fd4713ee4635"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.evaluation",
+      "typeVersion": 4.8,
+      "position": [
+        -32,
+        256
+      ],
+      "id": "e33781df-3732-4472-8367-349f8c86780e",
+      "name": "set metrics"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.requestBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -496,
+        256
+      ],
+      "id": "e74fbadc-3d0d-4175-953a-30458775f624",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "D1mmHKZDMu4gMr70",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const rule = $('When fetching a dataset row').first().json.rule_text;\n  const actual = item.json.output;\n  const body = {\n    model: 'gpt-4o-mini',\n    temperature: 0,\n    messages: [\n      {\n        role: 'system',\n        content: 'You are a strict grader. Reply with only a JSON object: { \"score\": <0 to 1>, \"reason\": \"<one sentence>\" }. No other text.'\n      },\n      {\n        role: 'user',\n        content: `Rule: ${rule}\\nActual output: ${actual}`\n      }\n    ]\n  };\n  \n  return { json: { requestBody: JSON.stringify(body) } };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        256
+      ],
+      "id": "7b85a151-ad79-4f58-bdd5-88d4e385fbf8",
+      "name": "Build Judge Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "regulations",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "regulations",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "regulations",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "regulations": {
+      "main": [
+        [
+          {
+            "node": "Evaluation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When fetching a dataset row": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Evaluation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluation1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Build Judge Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "set metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Judge Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "160375c5-7d8f-4e9a-b7aa-3bd0dbd54627",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "27a7c95042d12c27a7b4fbd9e337c6ae4c32cfdccb1b95cd58e9a8b1e0ce51ff"
+  },
+  "nodeGroups": [],
+  "id": "fDdVXI5EKbYrwSpU",
+  "tags": []
+}

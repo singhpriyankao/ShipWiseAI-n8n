@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<meta name="design_doc_mode" content="canvas">
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+body { margin: 0; font-family: Inter, sans-serif; background: #f5f5f7; color: #1a1a1a; }
+a { color: #6366f1; text-decoration: none; } a:hover { text-decoration: underline; }
+</style>
+</helmet>
+
+<section id="1a" style="display: grid; grid-template-columns: 1fr 320px; gap: 24px; padding: 24px; background: #f5f5f7; min-height: 100vh;">
+
+<!-- Left: Main content -->
+<div style="display: flex; flex-direction: column; gap: 24px;">
+
+<!-- Header with gradient -->
+<div style="background: linear-gradient(135deg, #0f766e 0%, #6366f1 100%); border-radius: 12px; padding: 32px; border: none; display: flex; justify-content: space-between; align-items: center; color: white; position: relative; overflow: hidden;">
+<div style="position: absolute; top: -60px; right: -60px; width: 180px; height: 180px; background: rgba(255,255,255,0.08); border-radius: 50%;"></div>
+<div style="position: relative; z-index: 2;">
+<h1 style="font-size: 28px; font-weight: 700; margin: 0 0 6px 0;">Welcome back, Amara</h1>
+<div style="font-size: 14px; color: #e0eef8;">Your AI feature evaluations are tracking well</div>
+</div>
+<button style="padding: 12px 24px; background: white; color: #6366f1; border: none; border-radius: 8px; font-family: Inter; font-size: 14px; font-weight: 600; cursor: pointer; position: relative; z-index: 2;">+ New Evaluation</button>
+</div>
+
+<!-- Metrics cards -->
+<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+
+<div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #0f766e; margin-bottom: 12px; font-weight: 600;">Features Evaluated</div>
+<div style="font-size: 36px; font-weight: 700; color: #0f766e; margin-bottom: 6px;">7</div>
+<div style="font-size: 12px; color: #666;">2 awaiting feedback</div>
+</div>
+
+<div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #4CAF50; margin-bottom: 12px; font-weight: 600;">Decision Quality</div>
+<div style="font-size: 36px; font-weight: 700; color: #4CAF50; margin-bottom: 6px;">82%</div>
+<div style="font-size: 12px; color: #666;">vs. forecast</div>
+</div>
+
+<div style="background: white; border-radius: 12px; padding: 24px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #6366f1; margin-bottom: 12px; font-weight: 600;">Time to Decision</div>
+<div style="font-size: 36px; font-weight: 700; color: #6366f1; margin-bottom: 6px;">8 min</div>
+<div style="font-size: 12px; color: #666;">From 3+ hours</div>
+</div>
+
+</div>
+
+<!-- Tabs for Evaluations vs Conversations -->
+<div style="display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid #e0e0e2;">
+<button style="padding: 12px 0; margin-right: 24px; font-size: 14px; font-weight: 600; color: #1a1a1a; background: none; border: none; border-bottom: 2px solid #6366f1; cursor: pointer;">Evaluations</button>
+<button style="padding: 12px 0; margin-right: 24px; font-size: 14px; font-weight: 500; color: #999; background: none; border: none; cursor: pointer;">Conversations</button>
+</div>
+
+<!-- Recent evaluations -->
+<div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-size: 16px; font-weight: 600; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; color: #1a1a1a;">
+<div>Recent Evaluations</div>
+<a href="#" style="font-size: 12px; color: #6366f1; font-weight: 500;">View all 7</a>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px;">
+
+<!-- Evaluation 1: Pending feedback -->
+<div style="border: 1px solid #f0f0f0; border-radius: 10px; padding: 18px; background: #fafaf9; display: flex; justify-content: space-between; align-items: flex-start; transition: all 0.2s;">
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">Customer Support Chatbot</div>
+<div style="font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.5;">
+<span style="font-family: 'JetBrains Mono'; color: #0f766e;">GPT-4 Turbo + Llama 3</span> · <span style="font-family: 'JetBrains Mono'; color: #333;">82%</span> · <span style="font-family: 'JetBrains Mono';">$38K/mo</span>
+</div>
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<span style="background: #fff9e6; border: 1px solid #ffc107; color: #856404; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">FEEDBACK DUE</span>
+<span style="font-size: 11px; color: #999;">Launched 15 days ago</span>
+</div>
+</div>
+<a href="#" style="font-size: 12px; color: #6366f1; font-weight: 500; white-space: nowrap; padding-top: 2px;">Report</a>
+</div>
+
+<!-- Evaluation 2: Completed with match -->
+<div style="border: 1px solid #e8f5e9; border-radius: 10px; padding: 18px; background: #f1f8f6; display: flex; justify-content: space-between; align-items: flex-start;">
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">Intent Classification</div>
+<div style="font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.5;">
+<span style="font-family: 'JetBrains Mono'; color: #2e7d32;">Claude 3 Haiku</span> · <span style="font-family: 'JetBrains Mono'; color: #333;">85%</span> · <span style="font-family: 'JetBrains Mono';">$12K/mo</span>
+</div>
+<div style="display: flex; gap: 8px; align-items: center;">
+<span style="background: white; border: 1px solid #4CAF50; color: #2e7d32; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">✓ MATCH</span>
+<span style="font-size: 11px; color: #666;">84% actual vs 85% forecast</span>
+</div>
+</div>
+<a href="#" style="font-size: 12px; color: #6366f1; font-weight: 500; white-space: nowrap; padding-top: 2px;">Details</a>
+</div>
+
+<!-- Evaluation 3: Deviation -->
+<div style="border: 1px solid #ffe0b2; border-radius: 10px; padding: 18px; background: #fffbf0; display: flex; justify-content: space-between; align-items: flex-start;">
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">Sentiment Analysis</div>
+<div style="font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.5;">
+<span style="font-family: 'JetBrains Mono'; color: #e65100;">Llama 3 70B</span> · <span style="font-family: 'JetBrains Mono'; color: #333;">80%</span> · <span style="font-family: 'JetBrains Mono';">$15K/mo</span>
+</div>
+<div style="display: flex; gap: 8px; align-items: center;">
+<span style="background: white; border: 1px solid #FFA500; color: #c65911; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">⚠ VARIANCE</span>
+<span style="font-size: 11px; color: #666;">76% actual (cold-start)</span>
+</div>
+</div>
+<a href="#" style="font-size: 12px; color: #6366f1; font-weight: 500; white-space: nowrap; padding-top: 2px;">Learn</a>
+</div>
+
+<!-- Evaluation 4: Match -->
+<div style="border: 1px solid #e8f5e9; border-radius: 10px; padding: 18px; background: #f1f8f6; display: flex; justify-content: space-between; align-items: flex-start;">
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 8px; color: #1a1a1a; font-size: 14px;">FAQ Bot — In-App Help</div>
+<div style="font-size: 13px; color: #666; margin-bottom: 12px; line-height: 1.5;">
+<span style="font-family: 'JetBrains Mono'; color: #2e7d32;">Mistral 7B</span> · <span style="font-family: 'JetBrains Mono'; color: #333;">78%</span> · <span style="font-family: 'JetBrains Mono';">$8K/mo</span>
+</div>
+<div style="display: flex; gap: 8px; align-items: center;">
+<span style="background: white; border: 1px solid #4CAF50; color: #2e7d32; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;">✓ MATCH</span>
+<span style="font-size: 11px; color: #666;">79% actual, 148ms latency</span>
+</div>
+</div>
+<a href="#" style="font-size: 12px; color: #6366f1; font-weight: 500; white-space: nowrap; padding-top: 2px;">Details</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<!-- Right sidebar -->
+<div style="display: flex; flex-direction: column; gap: 16px;">
+
+<!-- Team Access -->
+<div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Team Access</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+<div style="padding: 10px; background: #f5f5f7; border-radius: 6px;">
+<div style="font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">Customer Support Chatbot</div>
+<div style="color: #666; font-size: 11px;">Shared with Kai (eng) · Sam (legal)</div>
+</div>
+<div style="padding: 10px; background: #f5f5f7; border-radius: 6px;">
+<div style="font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">Intent Classification</div>
+<div style="color: #666; font-size: 11px;">Shared with Kai (eng)</div>
+</div>
+<a href="#" style="font-size: 11px; color: #6366f1; font-weight: 500; margin-top: 4px;">Manage team access</a>
+</div>
+</div>
+
+<!-- Pending feedback alert -->
+<div style="background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 100%); border-radius: 12px; padding: 18px; border: 1px solid #ffc107; color: #856404;">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Action Needed</div>
+<div style="font-size: 12px; line-height: 1.6; margin-bottom: 12px;">
+Customer Support Chatbot evaluation due for feedback in 15 days.
+</div>
+<a href="#" style="color: #856404; font-weight: 600; font-size: 12px; text-decoration: underline;">Report outcome now</a>
+</div>
+
+<!-- Accuracy trend -->
+<div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Accuracy Trend</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="color: #666;">Forecast accuracy</span>
+<span style="font-weight: 600; color: #4CAF50; font-size: 14px;">82%</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="color: #666;">vs. Actual outcomes</span>
+<span style="font-weight: 600; color: #2e7d32; font-size: 14px;">+2.1%</span>
+</div>
+<div style="margin-top: 8px; padding-top: 12px; border-top: 1px solid #e8e8e8; font-size: 11px; color: #999;">Recommendations getting better</div>
+</div>
+</div>
+
+<!-- Top models -->
+<div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Most Used Models</div>
+<div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span style="font-family: 'JetBrains Mono';">Claude 3 Haiku</span>
+<span style="color: #999;">3 evals</span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+<span style="font-family: 'JetBrains Mono';">GPT-4 Turbo</span>
+<span style="color: #999;">2 evals</span>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 8px 0;">
+<span style="font-family: 'JetBrains Mono';">Llama 3 70B</span>
+<span style="color: #999;">2 evals</span>
+</div>
+</div>
+</div>
+
+<!-- Quick access -->
+<div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid #e0e0e2; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<div style="font-weight: 600; font-size: 13px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; color: #666;">Resources</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<a href="#" style="font-size: 12px; color: #6366f1; padding: 6px 0;">View documentation</a>
+<a href="#" style="font-size: 12px; color: #6366f1; padding: 6px 0;">Export all evaluations</a>
+<a href="#" style="font-size: 12px; color: #6366f1; padding: 6px 0;">Share team access</a>
+</div>
+</div>
+
+</div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
